@@ -1,14 +1,12 @@
-import { galleryItems } from './gallery-items.js'
+import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-console.log(galleryItems)
+const imageGalleryContainer = document.querySelector('.gallery');
+const imageGalleryMarkup = createsImageGalleryMarkup(galleryItems);
 
-const imageGalleryContainer = document.querySelector('.gallery')
-const imageGalleryMarkup = createsImageGalleryMarkup(galleryItems)
+imageGalleryContainer.addEventListener('click', onImageGalleryContainerClick);
 
-imageGalleryContainer.addEventListener('click', onImageGalleryContainerClick)
-
-imageGalleryContainer.insertAdjacentHTML('beforeend', imageGalleryMarkup)
+imageGalleryContainer.insertAdjacentHTML('beforeend', imageGalleryMarkup);
 
 function createsImageGalleryMarkup(galleryItems) {
   return galleryItems
@@ -24,15 +22,27 @@ function createsImageGalleryMarkup(galleryItems) {
        />
       </a>
     </div>
-  `
+  `;
     })
-    .join('')
+    .join('');
 }
 
 function onImageGalleryContainerClick(event) {
-  event.preventDefault()
-  if (!event.target.classList.contains('gallery__image')) {
-    return
+  event.preventDefault();
+  if (event.target.nodeName !== 'IMG') {
+    return;
   }
-  console.log(event.target)
+  modalShow(event.target.dataset.source);
+}
+
+function modalShow(src) {
+  const instance = basicLightbox.create(
+    `
+    <div class = "modal">
+    <img src = "${src}" width = "900" height = "600"
+    </div>
+    `,
+  );
+
+  instance.show();
 }
